@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+ 
+<html lang='en'>
+	<head>
+		<meta charset="utf-8">
+		<title>Welcome</title>
+		<link rel="stylesheet" href="css/bootstrap.css"  type="text/css"/>
+	</head> 
+	<body>
+		<div class='col-lg-11'>
+		<form class="form-horizontal" name="checkform" id="checkform" method="post" action="checkurl">
+			<fieldset>
+				<legend>HTML Validation Tool</legend>
+		  		<div class="form-group">
+		    		<label for="url" class="col-lg-2 control-label">URL</label>
+		    		<div class="col-lg-4">
+		      			<input type="text" class="form-control" id="url" name="url" placeholder="http://">
+		    		</div>
+		  		</div>
+		  		<div class="form-group">
+		  			<label for="guidelines" class="col-lg-2 control-label">Guidelines</label>
+		    		<div class="col-lg-4">
+		      			<fieldset name="ruleset">
+		    			<div class="checkbox">
+		        			<label>
+		          				<input type="checkbox" id="SECTION508" value="SECTION508" name="ruleset"/> Section 508
+		        			</label>
+		      			</div>
+		      			<div class="checkbox">
+		      			     <label>
+		          				<input type="checkbox" id="WCAG2-A" value="WCAG2A" name="ruleset"/> WCAG 2.0 (A)
+		        			</label>
+		        		</div>
+		        		<div class="checkbox">
+		      			     <label>
+		          				<input type="checkbox" id="LINKVERIFICATION" value="LINKVERIFICATION" name="ruleset"/> Link Verification
+		        			</label>
+		        		</div>
+		        		</fieldset>
+		    		</div>
+		  		</div>
+		  		<div class="form-group">
+		    		<label for="level" class="col-lg-2 control-label">Validation Level</label>
+		    		<div class="col-lg-4">
+						<select class="form-control" id="level" name="level">
+							<option value="ERROR">1 - Error </option>
+							<option value="LIKELY">2 - Likely </option>
+							<option value="POTENTIAL">3 - Potential </option>
+						</select>
+		    		</div>
+		  		</div>
+		    	<div class="form-group">
+		    		<label for="platform" class="col-lg-2 control-label">Platform</label>
+		    		<div class="col-lg-4">
+						<select class="form-control" id="platform" name="platform">
+							<option value="DESKTOP">Desktop</option>
+							<option value="MOBILE">Mobile</option>
+						</select>
+		    		</div>
+		  		</div>
+		     	<div class="form-group">
+		    		<label for="sort" class="col-lg-2 control-label">Group Results By</label>
+		    		<div class="col-lg-4">
+						<select class="form-control" id="sort" name="sort">
+							<option value="RULE">Validation Rule</option>
+							<option value="ELEMENT">Page Element</option>
+						</select>
+		    		</div>
+		  		</div>
+		  		<div class="form-group">
+		  			<label for="guidelines" class="col-lg-2 control-label"></label>
+		    		<div class="col-lg-4">
+		      			<fieldset name="ruleset">
+		    			<div class="checkbox">
+		        			<label>
+		          				<input type="checkbox" id="executejs" value="true" name="executejs"/> Execute Client Scripts Before Rendering
+		        			</label>
+		      			</div>	
+		        		</fieldset>
+		    		</div>
+		  		</div>
+		  		<div class="form-group">
+		  			<label for="guidelines" class="col-lg-2 control-label"></label>
+		    		<div class="col-lg-4">
+		      			<fieldset name="ruleset">
+		    			<div class="checkbox">
+		        			<label>
+		          				<input type="checkbox" id="output" value="excel" name="output"/> Output Results to Excel File
+		        			</label>
+		      			</div>	
+		        		</fieldset>
+		    		</div>
+		  		</div>
+		  		<div class="form-group">
+		    		<div class="col-lg-offset-2 col-lg-4">
+		    			<button class="btn btn-default" id="gocheckit" type="button" >CHECK IT!</button>
+		    		</div>
+		  		</div>
+		  	</fieldset>
+		</form>
+		<div id="results"></div>
+		</div>
+		<iframe name="tmpFrame" id="tmpFrame" width="1" height="1" style="visibility:hidden;position:absolute;display:none"></iframe>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script>
+				$(document).ready(function()
+				{
+					$("#gocheckit").click(function()
+					{
+						$("#checkform").submit(function(e)
+						{
+							$("#results").html("CHECKING . . .");
+							var postData = $(this).serializeArray();
+							var formURL = $(this).attr("action");
+							$.ajax(
+							{
+								url : formURL,
+								type: "POST",
+								data : postData,
+								success:function(data, textStatus, jqXHR) 
+								{
+									//alert(data);
+									//alert($("#output").val());
+									//if( $("#output").val()=='excel') {
+									$("#tmpFrame").attr('src', data); 	
+									//} 
+									    
+									var resultHTML = "";
+									var sortType = $("#sort").val();
+									$.each(data, function(i, val) {
+										if(sortType == 'RULE') {
+											resultHTML = resultHTML + '<div class="col-lg-10"><pre><code class="prettyprint"><h4>' + val.key.ruleSetName +  ' ' + (val.key.ruleSetSubGroupDescription == null ? val.key.ruleSetGroupDescription : val.key.ruleSetSubGroupDescription)  + ': ' + val.key.level + ' : ' + val.key.ruleName + '</h4></code></pre></div>';
+										} else {
+											resultHTML = resultHTML + '<div class="col-lg-10"><pre><code class="prettyprint"><h4>(LINE '+ val.key.lineNumber + ' COL ' + val.key.columnNumber + ') : ' + val.key.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</h4></code></pre></div>';
+										}
+										$.each(this.value, function(j, result) {
+											if(sortType == 'RULE') {
+									    		resultHTML = resultHTML + '<div class="col-lg-9 col-lg-offset-1"><p><pre><code>(LINE ' + result.lineNumber +  ' COL ' + result.columnNumber + ') ' + result.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</code></pre></p></div>';
+									    	} else {
+									    		resultHTML = resultHTML + '<div class="col-lg-9 col-lg-offset-1"><p><pre><code>' +  result.level + ': ' + result.ruleSetName + ' ' + (result.ruleSetSubGroupDescription == null ? result.ruleSetGroupDescription : result.ruleSetSubGroupDescription)  + ': ' + result.ruleName + '</code></pre></p></div>';		
+											}
+									    });
+									});
+									$("#results").html(resultHTML);
+								},
+								error: function(jqXHR, textStatus, errorThrown) 
+								{
+									$("#results").html('<pre><code class="prettyprint">AJAX Request Failed<br/> textStatus='+textStatus+', errorThrown='+errorThrown+'</code></pre>');
+								}
+							});
+						    e.preventDefault();	//STOP default action
+						});
+						$("#checkform").submit(); //SUBMIT FORM
+					});
+				
+				});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,160 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+ 
+	<util:map id="languageCodeMap" key-type="java.lang.String" value-type="java.lang.String">
+		<entry key="ab" value="Abkhazian"/>
+		<entry key="aa" value="Afar"/>
+		<entry key="af" value="Afrikaans"/>
+		<entry key="sq" value="Albanian"/>
+		<entry key="am" value="Amharic"/>
+		<entry key="ar" value="Arabic"/>
+		<entry key="an" value="Aragonese"/>
+		<entry key="hy" value="Armenian"/>
+		<entry key="as" value="Assamese"/>
+		<entry key="ay" value="Aymara"/>
+		<entry key="az" value="Azerbaijani"/>
+		<entry key="ba" value="Bashkir"/>
+		<entry key="eu" value="Basque"/>
+		<entry key="bn" value="Bengali (Bangla)"/>
+		<entry key="dz" value="Bhutani"/>
+		<entry key="bh" value="Bihari"/>
+		<entry key="bi" value="Bislama"/>
+		<entry key="br" value="Breton"/>
+		<entry key="bg" value="Bulgarian"/>
+		<entry key="my" value="Burmese"/>
+		<entry key="be" value="Byelorussian (Belarusian)"/>
+		<entry key="km" value="Cambodian"/>
+		<entry key="ca" value="Catalan"/>
+		<entry key="zh" value="Chinese"/>
+		<entry key="co" value="Corsican"/>
+		<entry key="hr" value="Croatian"/>
+		<entry key="cs" value="Czech"/>
+		<entry key="da" value="Danish"/>
+		<entry key="nl" value="Dutch"/>
+		<entry key="en" value="English"/>
+		<entry key="eo" value="Esperanto"/>
+		<entry key="et" value="Estonian"/>
+		<entry key="fo" value="Faeroese"/>
+		<entry key="fa" value="Farsi"/>
+		<entry key="fj" value="Fiji"/>
+		<entry key="fi" value="Finnish"/>
+		<entry key="fr" value="French"/>
+		<entry key="fy" value="Frisian"/>
+		<entry key="gl" value="Galician"/>
+		<entry key="gd" value="Gaelic (Scottish)"/>
+		<entry key="gv" value="Gaelic (Manx)"/>
+		<entry key="ka" value="Georgian"/>
+		<entry key="de" value="German"/>
+		<entry key="el" value="Greek"/>
+		<entry key="kl" value="Greenlandic"/>
+		<entry key="gn" value="Guarani"/>
+		<entry key="gu" value="Gujarati"/>
+		<entry key="ht" value="Haitian Creole"/>
+		<entry key="ha" value="Hausa"/>
+		<entry key="iw" value="Hebrew"/>
+		<entry key="he" value="Hebrew"/>
+		<entry key="hi" value="Hindi"/>
+		<entry key="hu" value="Hungarian"/>
+		<entry key="is" value="Icelandic"/>
+		<entry key="io" value="Ido"/>
+		<entry key="in" value="Indonesian"/>
+		<entry key="id" value="Indonesian"/>
+		<entry key="ia" value="Interlingua"/>
+		<entry key="ie" value="Interlingue"/>
+		<entry key="iu" value="Inuktitut"/>
+		<entry key="ik" value="Inupiak"/>
+		<entry key="ga" value="Irish"/>
+		<entry key="it" value="Italian"/>
+		<entry key="ja" value="Japanese"/>
+		<entry key="jv" value="Javanese"/>
+		<entry key="kn" value="Kannada"/>
+		<entry key="ks" value="Kashmiri"/>
+		<entry key="kk" value="Kazakh"/>
+		<entry key="rw" value="Kinyarwanda (Ruanda)"/>
+		<entry key="ky" value="Kirghiz"/>
+		<entry key="rn" value="Kirundi (Rundi)"/>
+		<entry key="ko" value="Korean"/>
+		<entry key="ku" value="Kurdish"/>
+		<entry key="lo" value="Laothian"/>
+		<entry key="la" value="Latin"/>
+		<entry key="lv" value="Latvian (Lettish)"/>
+		<entry key="li" value="Limburgish ( Limburger)"/>
+		<entry key="ln" value="Lingala"/>
+		<entry key="lt" value="Lithuanian"/>
+		<entry key="mk" value="Macedonian"/>
+		<entry key="mg" value="Malagasy"/>
+		<entry key="ms" value="Malay"/>
+		<entry key="ml" value="Malayalam"/>
+		<entry key="mt" value="Maltese"/>
+		<entry key="mi" value="Maori"/>
+		<entry key="mr" value="Marathi"/>
+		<entry key="mo" value="Moldavian"/>
+		<entry key="mn" value="Mongolian"/>
+		<entry key="na" value="Nauru"/>
+		<entry key="ne" value="Nepali"/>
+		<entry key="no" value="Norwegian"/>
+		<entry key="oc" value="Occitan"/>
+		<entry key="or" value="Oriya"/>
+		<entry key="om" value="Oromo (Afaan Oromo)"/>
+		<entry key="ps" value="Pashto (Pushto)"/>
+		<entry key="pl" value="Polish"/>
+		<entry key="pt" value="Portuguese"/>
+		<entry key="pa" value="Punjabi"/>
+		<entry key="qu" value="Quechua"/>
+		<entry key="rm" value="Rhaeto-Romance"/>
+		<entry key="ro" value="Romanian"/>
+		<entry key="ru" value="Russian"/>
+		<entry key="sm" value="Samoan"/>
+		<entry key="sg" value="Sangro"/>
+		<entry key="sa" value="Sanskrit"/>
+		<entry key="sr" value="Serbian"/>
+		<entry key="sh" value="Serbo-Croatian"/>
+		<entry key="st" value="Sesotho"/>
+		<entry key="tn" value="Setswana"/>
+		<entry key="sn" value="Shona"/>
+		<entry key="ii" value="Sichuan Yi"/>
+		<entry key="sd" value="Sindhi"/>
+		<entry key="si" value="Sinhalese"/>
+		<entry key="ss" value="Siswati"/>
+		<entry key="sk" value="Slovak"/>
+		<entry key="sl" value="Slovenian"/>
+		<entry key="so" value="Somali"/>
+		<entry key="es" value="Spanish"/>
+		<entry key="su" value="Sundanese"/>
+		<entry key="sw" value="Swahili (Kiswahili)"/>
+		<entry key="sv" value="Swedish"/>
+		<entry key="tl" value="Tagalog"/>
+		<entry key="tg" value="Tajik"/>
+		<entry key="ta" value="Tamil"/>
+		<entry key="tt" value="Tatar"/>
+		<entry key="te" value="Telugu"/>
+		<entry key="th" value="Thai"/>
+		<entry key="bo" value="Tibetan"/>
+		<entry key="ti" value="Tigrinya"/>
+		<entry key="to" value="Tonga"/>
+		<entry key="ts" value="Tsonga"/>
+		<entry key="tr" value="Turkish"/>
+		<entry key="tk" value="Turkmen"/>
+		<entry key="tw" value="Twi"/>
+		<entry key="ug" value="Uighur"/>
+		<entry key="uk" value="Ukrainian"/>
+		<entry key="ur" value="Urdu"/>
+		<entry key="uz" value="Uzbek"/>
+		<entry key="vi" value="Vietnamese"/>
+		<entry key="vo" value="Volapük"/>
+		<entry key="wa" value="Wallon"/>
+		<entry key="cy" value="Welsh"/>
+		<entry key="wo" value="Wolof"/>
+		<entry key="xh" value="Xhosa"/>
+		<entry key="ji" value="Yiddish"/>
+		<entry key="yi" value="Yiddish"/>
+		<entry key="yo" value="Yoruba"/>
+		<entry key="zu" value="Zulu"/>
+	</util:map>
+
+</beans>	

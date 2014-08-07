@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<!-- RULE SET DEFINITIONS -->
+
+	<bean id="section508" class="com.schmapty.guvnah.model.rule.impl.RuleSetImpl"
+		p:id="section508">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="section508_A"/>
+				<ref bean="section508_B"/>
+				<ref bean="section508_C"/>
+				<ref bean="section508_D"/>
+				<ref bean="section508_E"/>
+				<ref bean="section508_F"/>
+				<ref bean="section508_G"/>
+				<ref bean="section508_H"/>
+				<ref bean="section508_I"/>
+				<ref bean="section508_J"/>
+				<ref bean="section508_K"/>
+				<ref bean="section508_L"/>
+				<ref bean="section508_M"/>
+				<ref bean="section508_N"/>
+				<ref bean="section508_O"/>
+				<ref bean="section508_P"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="section508_A" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_A">
+		<property name="rules">
+			<list>
+				<ref bean="rule1"/>
+				<ref bean="rule2"/>
+				<ref bean="rule3"/>
+				<ref bean="rule4"/>
+				<ref bean="rule5"/>
+				<ref bean="rule6"/>
+				<ref bean="rule7"/>
+				<ref bean="rule11"/>
+	 			<ref bean="rule74"/>
+				<ref bean="rule77"/>
+				<ref bean="rule80"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="section508_B" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_B">
+		<property name="rules">
+			<list>
+				<ref bean="rule20"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="section508_C" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_C">
+		<property name="rules">
+			<list>
+				<ref bean="rule21"/>
+				<ref bean="rule14"/>
+				<ref bean="rule55"/>
+				<ref bean="rule73"/>
+				<ref bean="rule86"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_D" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_D">
+		<property name="rules">
+			<list>
+				<ref bean="rule94"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_E" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_B">
+		<property name="rules">
+			<list>
+				<ref bean="rule13"/>
+			</list>
+		</property>
+	</bean>		
+	
+	<bean name="section508_F" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_F">
+		<property name="rules">
+			<list>
+				<ref bean="rule12"/>
+			</list>
+		</property>
+	</bean>		
+	
+	<bean name="section508_G" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_G">
+		<property name="rules">
+			<list>
+				<ref bean="rule136"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_H" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_G">
+		<property name="rules">
+			<list>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_I" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_I">
+		<property name="rules">
+			<list>
+				<ref bean="rule31"/>
+				<ref bean="rule32"/>
+				<ref bean="rule33"/>
+<!-- 				<ref bean="rule34"/> -->
+				<ref bean="rule35"/>
+			</list>
+		</property>
+	</bean>	
+
+	<bean name="section508_J" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_J">
+		<property name="rules">
+			<list>
+				<ref bean="rule22"/>
+				<ref bean="rule10"/>
+				<ref bean="rule30"/>
+				<ref bean="rule87"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_K" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_K">
+		<property name="rules">
+			<list>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_L" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_L">
+		<property name="rules">
+			<list>
+				<ref bean="rule90"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="section508_M" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_M">
+		<property name="rules">
+			<list>
+				<ref bean="rule23"/>
+				<ref bean="rule24"/>
+				<ref bean="rule25"/>
+				<ref bean="rule26"/>
+			</list>
+		</property>
+	</bean>		
+	
+	<bean name="section508_N" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_N">
+		<property name="rules">
+			<list>
+				<ref bean="rule57"/>
+				<ref bean="rule58"/>
+				<ref bean="rule59"/>
+				<ref bean="rule60"/>
+				<ref bean="rule61"/>
+				<ref bean="rule62"/>
+				<ref bean="rule118"/>
+				<ref bean="rule119"/>
+				<ref bean="rule120"/>
+				<ref bean="rule121"/>
+				<ref bean="rule213"/>
+				<ref bean="rule91"/>
+			</list>
+		</property>
+	</bean>			
+	
+	<bean name="section508_O" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_O">
+		<property name="rules">
+			<list>
+				<ref bean="rule28"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="section508_P" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="section508_P">
+		<property name="rules">
+			<list>
+				<ref bean="rule71"/>
+				<ref bean="rule72"/>
+			</list>
+		</property>
+	</bean>
+	
+
+</beans>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<!-- RULE SET DEFINITIONS -->
+
+	<bean id="wcag2aaa" class="com.schmapty.guvnah.model.rule.impl.RuleSetImpl"
+		p:id="wcag2aaa">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2aaa.1.1"/>
+				<ref bean="wcag2aaa.1.2"/>
+				<ref bean="wcag2aaa.1.3"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- WCAG2 AAA 1.1 -->
+
+	<bean name="wcag2aaa.1.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		  p:id="wcag2aaa.1.1">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.1.1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- WCAG2 AAA 1.2 -->
+	
+	<bean name="wcag2aaa.1.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2aaa.1.2">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.2.1"/>
+				<ref bean="wcag2a.1.2.2"/>
+				<ref bean="wcag2a.1.2.3"/>
+				<ref bean="wcag2aa.1.2.4"/>
+				<ref bean="wcag2aa.1.2.5"/>
+				<ref bean="wcag2aaa.1.2.6"/>
+				<ref bean="wcag2aaa.1.2.7"/>
+				<ref bean="wcag2aaa.1.2.8"/>
+				<ref bean="wcag2aaa.1.2.9"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2aaa.1.2.6" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2aaa.1.2.6">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2aaa.1.2.7" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2aaa.1.2.7">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2aaa.1.2.8" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2aaa.1.2.8">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2aaa.1.2.9" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2aaa.1.2.9">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+	
+	<!-- WCAG2 AAA 1.3 -->
+	
+	<bean name="wcag2aaa.1.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2aaa.1.3">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.3.1"/>
+				<ref bean="wcag2a.1.3.2"/>
+				<ref bean="wcag2a.1.3.3"/>
+			</list>
+		</property>
+	</bean>
+</beans>

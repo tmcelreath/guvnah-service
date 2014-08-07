@@ -1,0 +1,2463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- RULE DEFINITIONS -->
+	
+	<bean name="rule1" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="1"
+		p:tagName="IMG"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="alt"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule2" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="2"
+		p:tagName="IMG"
+		p:confidence="LIKELY"
+		p:parent-ref="rule1">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributesHaveDifferentValuesCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg value="src"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule3" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="3"
+		p:tagName="IMG"
+		p:confidence="LIKELY"
+		p:parent-ref="rule1">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMaxLengthCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg value="100"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule4" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="4"
+		p:tagName="IMG"
+		p:confidence="LIKELY"
+		p:parent-ref="rule1">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+					<constructor-arg value="width"/>
+					<constructor-arg value="25"/>
+				</bean>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+					<constructor-arg value="height"/>
+					<constructor-arg value="25"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg>
+					<list>
+						<value></value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule5" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="5"
+		p:tagName="IMG"
+		p:confidence="LIKELY"
+		p:parent-ref="rule1">
+		<property name="prerequisites">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.And">
+			    <constructor-arg>
+                    <list value-type="com.schmapty.guvnah.model.expression.Expression">
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+                            <constructor-arg value="width"/>
+                            <constructor-arg value="25"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+                            <constructor-arg value="height"/>
+                            <constructor-arg value="25"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinLengthCheck">
+                            <constructor-arg value="alt"/>
+                            <constructor-arg value="1"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotBlankCheck">
+				<constructor-arg value="alt"/>
+			</bean>	
+		</property>
+	</bean>
+
+	<bean name="rule6" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="6"
+		p:tagName="IMG"
+		p:confidence="LIKELY"
+		p:parent-ref="rule1">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg>
+					<list>
+						<value>&amp;nbsp;</value>
+						<value>spacer</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule7" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="7"
+		p:tagName="IMG"
+		p:confidence="ERROR"
+		p:parent-ref="rule1">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasParentTagCheck">
+					<constructor-arg value="ANCHOR"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotBlankCheck">
+				<constructor-arg value="alt"/>
+			</bean>
+		</property>
+	</bean>
+			
+	<bean name="rule8" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="8"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule1">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+					<constructor-arg value="width"/>
+					<constructor-arg value="100"/>
+				</bean>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+					<constructor-arg value="height"/>
+					<constructor-arg value="100"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="longdesc"/>
+			</bean>	
+		</property>
+	</bean>	
+	
+	<bean name="rule9" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="9"
+		p:tagName="IMG"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="longdesc"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.And">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.NextSiblingTagNameCheck">
+                            <constructor-arg value="ANCHOR"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.NextSiblingValueCheck">
+                            <constructor-arg value="[d]"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>
+
+	<bean name="rule10" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="10"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+					<constructor-arg value="width"/>
+					<constructor-arg value="25"/>
+				</bean>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMinValuePixelsCheck">
+					<constructor-arg value="height"/>
+					<constructor-arg value="25"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotEndsWithCheck">
+				<constructor-arg value="src"/>
+				<constructor-arg>
+					<list>
+						<value>.gif</value>
+					</list>
+				</constructor-arg>
+			</bean>	
+		</property>
+	</bean>
+
+	<bean name="rule11" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="11"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule1">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMaxValuePixelsCheck">
+                            <constructor-arg value="width"/>
+                            <constructor-arg value="50"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMaxValuePixelsCheck">
+                            <constructor-arg value="height"/>
+                            <constructor-arg value="50"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>
+		
+	<bean name="rule12" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="12"
+		p:tagName="IMG"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="ismap"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="usemap"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean name="rule13" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="13"
+		p:tagName="IMG"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ImageMapHasTextLinkEquivalentsCheck"/>
+		</property>
+	</bean>
+		
+	<bean name="rule14" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="14"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMaxValuePixelsCheck">
+                            <constructor-arg value="width"/>
+                            <constructor-arg value="100"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMaxValuePixelsCheck">
+                            <constructor-arg value="height"/>
+                            <constructor-arg value="100"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>
+
+	<bean name="rule15" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="15"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule1">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnTrueCheck"/>
+		</property>
+	</bean>		
+	
+	<bean name="rule16" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="16"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValidValuesCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg>
+					<list>
+						<value></value>
+					</list>
+				</constructor-arg>			
+			</bean>
+		</property>
+	</bean>		
+	
+	<bean name="rule17" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="17"
+		p:tagName="ANCHOR"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotEndsWithCheck">
+				<constructor-arg value="href"/>
+				<constructor-arg>
+					<list>
+						<value>.wav</value>
+						<value>.snd</value>
+						<value>.mp3</value>
+						<value>.iff</value>
+						<value>.svx</value>
+						<value>.sam</value>
+						<value>.vce</value>
+						<value>.vox</value>
+						<value>.pcm</value>
+						<value>.aif</value>
+						<value>.smp</value>
+					</list>
+				</constructor-arg>			
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule19" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="19"
+		p:tagName="ANCHOR"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueBlankCheck">
+				<constructor-arg value="href"/>
+			</bean>
+		</property>
+	</bean>	
+		
+	<bean name="rule20" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="20"
+		p:tagName="ANCHOR"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotEndsWithCheck">
+				<constructor-arg value="href"/>
+				<constructor-arg>
+					<list>
+						<value>.wmv</value>
+						<value>.mpg</value>
+						<value>.mov</value>
+						<value>.ram</value>
+						<value>.aif</value>
+					</list>
+				</constructor-arg>			
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule21" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="21"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule22" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="22"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule23" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="23"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="alt"/>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule24" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="24"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule25" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="25"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule26" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="26"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule27" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="27"
+		p:tagName="BLINK"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule28" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="28"
+		p:tagName="BODY"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagAttributeValueLikeCheck">
+				<constructor-arg value="ALL"/>
+				<constructor-arg value="href"/>
+				<constructor-arg>
+					<list>
+						<value>jump</value>
+						<value>go</value>
+						<value>to</value>
+						<value>skip</value>
+						<value>navigation</value>
+						<value>content</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule29" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="29"
+		p:tagName="HTML"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasDoctypeCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule30" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="30"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule31" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="31"
+		p:tagName="FRAME"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="title"/>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule32" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="32"
+		p:tagName="FRAME"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule33" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="33"
+		p:tagName="FRAME"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule35" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="35"
+		p:tagName="FRAMESET"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+				<constructor-arg><value type="com.schmapty.guvnah.model.rule.TagName">NOFRAMES</value></constructor-arg>
+				<constructor-arg value="false"/>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule37" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="37"
+		p:tagName="H1"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NextHeaderCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule38" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="38"
+		p:tagName="H2"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NextHeaderCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule39" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="39"
+		p:tagName="H3"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NextHeaderCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule40" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="40"
+		p:tagName="H4"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NextHeaderCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule41" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="41"
+		p:tagName="H5"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NextHeaderCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule48" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="48"
+		p:tagName="HTML"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="lang"/>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule49" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="49"
+		p:tagName="HTML"
+		p:confidence="ERROR"
+		p:parent-ref="rule48">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.LanguageCodeCheck">
+				<constructor-arg ref="languageCodeMap"/>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule50" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="50"
+		p:tagName="HEAD"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+				<constructor-arg><value type="com.schmapty.guvnah.model.rule.TagName">TITLE</value></constructor-arg>
+				<constructor-arg value="false"/>
+			</bean>
+		</property>
+	</bean>				
+		
+	<bean name="rule51" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="51"
+		p:tagName="HEAD"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ChildTagHasValueCheck">
+				<constructor-arg><value type="com.schmapty.guvnah.model.rule.TagName">TITLE</value></constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule52" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="52"
+		p:tagName="TITLE"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ElementInnerTextMaxLengthCheck">
+				<constructor-arg value="150"/>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule53" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="52"
+		p:tagName="TITLE"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ElementInnerTextNotInCheck">
+				<constructor-arg>
+					<list>
+						<value>title</value>
+						<value>the title</value>
+						<value>this is the title</value>						
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule54" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="54"
+		p:tagName="TITLE"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>		
+	
+	<bean name="rule55" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="55"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValidValuesCheck">
+				<constructor-arg value="type"/>
+				<constructor-arg>
+					<list>
+						<value>hidden</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule57" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="57"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="text"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule58" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="58"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="image"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="alt"/>	
+			</bean>
+		</property>
+	</bean>		
+
+	<bean name="rule59" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="59"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule58">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="type"/>
+				<constructor-arg>
+					<list>
+						<value>image</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule60" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="60"
+		p:tagName="INPUT"
+		p:confidence="LIKELY"
+		p:parent-ref="rule58">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeMaxLengthCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg value="100"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule61" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="61"
+		p:tagName="INPUT"
+		p:confidence="LIKELY">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="image"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributesHaveDifferentValuesCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg value="src"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule62" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="62"
+		p:tagName="INPUT"
+		p:confidence="LIKELY"
+		p:parent-ref="rule58">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="alt"/>
+				<constructor-arg>
+					<list>
+						<value>image</value>
+						<value>photo</value>
+						<value>%bytes%</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule64" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="64"
+		p:tagName="AREA"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="alt"/>	
+			</bean>
+		</property>
+	</bean>		
+
+	<bean name="rule65" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="65"
+		p:tagName="AREA"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>		
+	
+	<bean name="rule66" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="66"
+		p:tagName="AREA"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotEndsWithCheck">
+				<constructor-arg value="href"/>
+				<constructor-arg>
+					<list>
+						<value>.wav</value>
+						<value>.snd</value>
+						<value>.mp3</value>
+						<value>.iff</value>
+						<value>.svx</value>
+						<value>.sam</value>
+						<value>.vce</value>
+						<value>.vox</value>
+						<value>.pcm</value>
+						<value>.aif</value>
+						<value>.smp</value>
+					</list>
+				</constructor-arg>			
+			</bean>
+		</property>
+	</bean>		
+
+	<bean name="rule69" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="69"
+		p:tagName="MARQUEE"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule71" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="71"
+		p:tagName="META"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="http-equiv"/>
+					<constructor-arg value="refresh"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotStartsWithCheck">
+				<constructor-arg value="content"/>
+				<constructor-arg>
+					<list>
+						<value>http://</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule72" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="72"
+		p:tagName="META"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="http-equiv"/>
+					<constructor-arg value="refresh"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotGreaterThanCheck">
+				<constructor-arg value="content"/>
+				<constructor-arg value="0"/>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule73" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="73"
+		p:tagName="OBJECT"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule74" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="74"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValidValuesCheck">
+				<constructor-arg value="codebase"/>
+				<constructor-arg>
+					<list>
+						<value></value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule76" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="76"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+			    <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                            <constructor-arg>
+                                <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                                    <constructor-arg value="codebase"></constructor-arg>
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                            <constructor-arg>
+                                <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueBlankCheck">
+                                    <constructor-arg value="codebase"/>
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+
+
+	<bean name="rule77" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="77"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="type"/>
+				<constructor-arg>
+					<list>
+						<value>video</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule78" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="78"
+		p:tagName="OBJECT"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="title"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule79" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="79"
+		p:tagName="OBJECT"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotBlankCheck">
+				<constructor-arg value="title"/>	
+			</bean>
+		</property>
+	</bean>		
+	
+	<bean name="rule80" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="80"
+		p:tagName="OBJECT"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ElementInnerTextNotEqualsCheck">
+				<constructor-arg value=""/>	
+			</bean>
+		</property>
+	</bean>	
+	
+
+	<bean name="rule82" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="82"
+		p:tagName="P"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasNoChildTagInArrayCheck">
+				<constructor-arg>
+					<list>
+						<value>B</value>
+						<value>I</value>
+						<value>U</value>
+						<value>STRONG</value>
+						<value>FONT</value>
+						<value>EM</value>
+					</list>
+				</constructor-arg>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule84" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="84"
+		p:tagName="PRE"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule86" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="86"
+		p:tagName="SCRIPT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule87" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="87"
+		p:tagName="SCRIPT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule89" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="89"
+		p:tagName="SCRIPT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+
+	<bean name="rule90" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="90"
+		p:tagName="SCRIPT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasParentTagCheck">
+					<constructor-arg value="BODY"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NextSiblingTagNameCheck">
+				<constructor-arg value="NOSCRIPT"/>	
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule91" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="91"
+		p:tagName="SELECT"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule94" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="94"
+		p:tagName="SCRIPT"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule95" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="95"
+		p:tagName="TEXTAREA"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>		
+	
+	<bean name="rule96" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="96"
+		p:tagName="TEXTAREA"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>		
+	
+	<bean name="rule102" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="102"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="onclick"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="onkeypress"/>	
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule103" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="103"
+		p:tagName="ALL"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                <constructor-arg>
+                    <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                        <constructor-arg value="ondblclick"></constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+
+	<bean name="rule104" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="104"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="onmousedown"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="onkeydown"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule105" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="105"
+		p:tagName="ALL"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                <constructor-arg>
+                    <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                        <constructor-arg value="onmousemove"></constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+	
+	
+	<bean name="rule106" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="106"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="onmouseout"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="onblur"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule107" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="107"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="onmouseover"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="onfocus"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule108" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="108"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="onmouseup"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="onkeyup"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule110" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="110"
+		p:tagName="BODY"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.LanguageCodeInCheck">
+					<constructor-arg>
+						<list>
+							<value>en</value>
+							<value>eng</value>
+						</list>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ElementInnerTextMaxLengthCheck">
+				<constructor-arg value="10"/>	
+			</bean>
+		</property>
+	</bean>
+	
+	<bean name="rule111" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="111"
+		p:tagName="TABLE"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+					<constructor-arg value="TH"/>
+					<constructor-arg value="false"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+				<constructor-arg value="summary"/>	
+			</bean>
+		</property>
+	</bean>
+	
+	<bean name="rule112" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="112"
+		p:tagName="TABLE"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+					<constructor-arg value="TH"/>
+					<constructor-arg value="false"/>	
+				</bean>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="summary"/>	
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="summary"/>
+				<constructor-arg>
+					<list>
+						<value></value>
+					</list>
+				</constructor-arg>	
+			</bean>
+		</property>
+	</bean>
+	
+	<bean name="rule114" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="114"
+		p:tagName="TABLE"
+		p:confidence="LIKELY">
+        <property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.NotHasChildTagCheck">
+					<constructor-arg value="TH"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+		    <bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+				<constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                            <constructor-arg>
+                                <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                                    <constructor-arg value="summary"></constructor-arg>
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueBlankCheck">
+                            <constructor-arg value="summary"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>		
+	
+	<bean name="rule115" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="115"
+		p:tagName="TABLE"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.NotHasChildTagCheck">
+					<constructor-arg value="TH"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.NotFirstChildTagCheck">
+					<constructor-arg value="CAPTION"/>
+				</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule118" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="118"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="password"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule119" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="119"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="checkbox"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule120" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="120"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="file"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule121" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="121"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="radio"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelCheck"/>
+		</property>
+	</bean>
+
+	<bean name="rule122" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="122"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="password"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>
+
+	<bean name="rule123" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="123"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="checkbox"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>
+	
+	<bean name="rule124" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="124"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="file"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>
+	
+	<bean name="rule125" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="125"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="radio"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule133" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="133"
+		p:tagName="TABLE"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+				<constructor-arg value="TH"/>	
+				<constructor-arg value="true"/>	
+			</bean>
+		</property>
+	</bean>
+	
+		
+	<bean name="rule136" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="136"
+		p:tagName="TABLE"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+				<constructor-arg value="TH"/>
+				<constructor-arg value="true"/>	
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="rule137" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="137"
+		p:tagName="TABLE"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.NotHasChildTagCheck">
+				<constructor-arg value="TH"/>	
+			</bean>
+		</property>
+	</bean>
+	
+	<bean name="rule145" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="145"
+		p:tagName="ANCHOR"
+		p:confidence="LIKELY">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotEndsWithCheck">
+				<constructor-arg value="href"/>
+				<constructor-arg>
+					<list>
+						<value>.wmv</value>
+						<value>.mpg</value>
+						<value>.mov</value>
+						<value>.ram</value>
+						<value>.aif</value>
+					</list>
+				</constructor-arg>			
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule146" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="146"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+				<constructor-arg value="type"/>
+				<constructor-arg value="video"/>	
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule151" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="151"
+		p:tagName="TABLE"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+					<constructor-arg value="TH"/>
+					<constructor-arg value="true"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+					<constructor-arg value="CAPTION"/>
+					<constructor-arg value="true"/>
+				</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule154" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="154"
+		p:tagName="PRE"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule160" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="160"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule163" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="163"
+		p:tagName="EMBED"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+				<constructor-arg value="NOEMBED"/>
+				<constructor-arg value="false"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule168" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="168"
+		p:tagName="FORM"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.FieldsetGroupCheck">
+				<constructor-arg value="radio"/>	
+			</bean>
+		</property>
+	</bean>		
+
+	<bean name="rule173" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="173"
+		p:tagName="ANCHOR"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ElementInnerTextNotInCheck">
+				<constructor-arg>
+					<list>
+						<value>click</value>
+						<value>click here</value>
+						<value>link</value>
+						<value>more</value>
+					</list>
+				</constructor-arg>	
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule174" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="174"
+		p:tagName="ANCHOR"
+		p:confidence="ERROR">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.ElementInnerTextNotEqualsCheck">
+                            <constructor-arg value=""/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotBlankCheck">
+                            <constructor-arg value="title"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.ChildTagHasAttributeCheck">
+                            <constructor-arg value="IMG"/>
+                            <constructor-arg value="alt"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                            <constructor-arg>
+                                <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                                    <constructor-arg value="href"></constructor-arg>
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+
+	<bean name="rule178" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="178"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasInvalidParentTagCheck">
+				<constructor-arg value="ANCHOR"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule185" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="185"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="id"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueUniqueInDocumentCheck">
+				<constructor-arg value="id"/>	
+			</bean>
+		</property>
+	</bean>
+	
+	<bean name="rule187" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="187"
+		p:tagName="ALL"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="for"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueUniqueInDocumentCheck">
+				<constructor-arg value="for"/>	
+			</bean>
+		</property>
+	</bean>
+			
+	<bean name="rule188" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="188"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg>
+						<list>
+							<value>submit</value>
+							<value>button</value>
+							<value>hidden</value>
+						</list>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>
+		
+	<bean name="rule189" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="189"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule188">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg>
+						<list>
+							<value>submit</value>
+							<value>button</value>
+							<value>hidden</value>
+						</list>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+			
+	<bean name="rule193" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="193"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+				<constructor-arg value="type"/>
+				<constructor-arg>
+					<list>
+						<value>image</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule194" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="194"
+		p:tagName="AREA"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule203" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="203"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="summary"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule204" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="204"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="radio"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule205" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="205"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="file"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule206" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="206"
+		p:tagName="INPUT"
+		p:confidence="ERROR"
+		p:parent-ref="rule119">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="checkbox"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule207" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="207"
+		p:tagName="INPUT"
+		p:confidence="ERROR"
+		p:parent-ref="rule118">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="password"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule208" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="208"
+		p:tagName="SELECT"
+		p:confidence="ERROR"
+		p:parent-ref="rule91">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule209" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="209"
+		p:tagName="SELECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule210" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="210"
+		p:tagName="SELECT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule211" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="211"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="text"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule212" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="212"
+		p:tagName="TEXTAREA"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+		
+	<bean name="rule213" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="213"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="text"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule216" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="216"
+		p:tagName="INPUT"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="file"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAssociatedLabelWithTextCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule217"  class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="217"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule189">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="password"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule218"  class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="218"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule189">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="text"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule219" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="219"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule189">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="checkbox"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule220" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="220"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL"
+		p:parent-ref="rule189">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+					<constructor-arg value="type"/>
+					<constructor-arg value="radio"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule230" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="230"
+		p:tagName="TABLE"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+					<constructor-arg value="TH"/>
+					<constructor-arg value="true"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.And">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+                            <constructor-arg value="THEAD"/>
+                            <constructor-arg value="true"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+                            <constructor-arg value="TBODY"/>
+                            <constructor-arg value="true"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+                            <constructor-arg value="TFOOT"/>
+                            <constructor-arg value="true"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule231" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="231"
+		p:tagName="TABLE"
+		p:confidence="POTENTIAL">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+					<constructor-arg value="TH"/>
+					<constructor-arg value="true"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.And">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+                            <constructor-arg value="COL"/>
+                            <constructor-arg value="true"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasChildTagCheck">
+                            <constructor-arg value="COLGROUP"/>
+                            <constructor-arg value="true"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule238" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="238"
+		p:tagName="INPUT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueNotEqualsCheck">
+                            <constructor-arg value="type"/>
+                            <constructor-arg value="image"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasInvalidAttributeCheck">
+                            <constructor-arg value="alt"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>			
+				
+	<bean name="rule239" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="239"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValidValuesCheck">
+				<constructor-arg value="title"/>
+				<constructor-arg>
+					<list>
+						<value></value>
+					</list>
+				</constructor-arg>			
+			</bean>
+		</property>
+	</bean>
+	
+<!-- 	<bean name="rule241" class="com.schmapty.guvnah.model.rule.impl.RuleImpl" -->
+<!-- 		p:ruleId="241" -->
+<!-- 		p:tagName="BODY" -->
+<!-- 		p:confidence="POTENTIAL"> -->
+<!-- 		<property name="check"> -->
+<!-- 			<bean class="ReturnTrueCheck"/> -->
+<!-- 		</property> -->
+<!-- 	</bean>	 -->
+	
+	<bean name="rule242" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="242"
+		p:tagName="CAPTION"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule243" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="243"
+		p:tagName="TABLE"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="summary"/>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributesValueNotEqualsChildTextCheck">
+				<constructor-arg value="summary"/>
+				<constructor-arg value="CAPTION"/>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule244" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="244"
+		p:tagName="TABLE"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasHeaderColumnsCheck"/>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasHeaderRowsCheck"/>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ChildTagHasAttributeCheck">
+				<constructor-arg value="TH"/>
+				<constructor-arg value="scope"/>
+			</bean>
+		</property>
+	</bean>	
+
+	<bean name="rule245" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="245"
+		p:tagName="TABLE"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasHeaderColumnsCheck"/>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasHeaderRowsCheck"/>
+			</list>
+		</property>
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.And">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.ChildTagHasAttributeCheck">
+                            <constructor-arg value="TH"/>
+                            <constructor-arg value="id"/>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.ChildTagHasAttributeCheck">
+                            <constructor-arg value="TD"/>
+                            <constructor-arg value="headers"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+
+	<bean name="rule246" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="246"
+		p:tagName="FORM"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>		
+	
+	<bean name="rule247" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="247"
+		p:tagName="FORM"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.FieldsetGroupCheck">
+				<constructor-arg value="checkbox"/>	
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule251" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="251"
+		p:tagName="IMG"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule252" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="252"
+		p:tagName="BODY"
+		p:confidence="ERROR">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Or">
+                <constructor-arg>
+                    <list>
+                        <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                            <constructor-arg>
+                                <list>
+                                    <value>text</value>
+                                    <value>link</value>
+                                    <value>alink</value>
+                                    <value>vlink</value>
+                                    <value>bgcolor</value>
+                                </list>
+                            </constructor-arg>
+                        </bean>
+                        <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                            <constructor-arg>
+                                <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAllAttributesCheck">
+                                    <constructor-arg>
+                                        <list>
+                                            <value>text</value>
+                                            <value>link</value>
+                                            <value>alink</value>
+                                            <value>vlink</value>
+                                            <value>bgcolor</value>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule258" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="258"
+		p:tagName="APPLET"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule259" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="269"
+		p:tagName="OBJECT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule260" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="260"
+		p:tagName="EMBED"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule262" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="262"
+		p:tagName="BODY"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule267" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="267"
+		p:tagName="FORM"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule269" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="269"
+		p:tagName="FORM"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+
+	<bean name="rule270" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="270"
+		p:tagName="BODY"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule271" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="271"
+		p:tagName="BODY"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule272" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="272"
+		p:tagName="FORM"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.ReturnFalseCheck"/>
+		</property>
+	</bean>	
+	
+	<bean name="rule273" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="273"
+		p:tagName="HTML"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValidValuesCheck">
+					<constructor-arg value="lang"/>
+					<constructor-arg>
+						<list>
+							<value>ara</value>
+							<value>ar</value>
+							<value>heb</value>
+							<value>he</value>
+						</list>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+				<constructor-arg value="dir"/>
+				<constructor-arg value="rtl"/>
+			</bean>
+		</property>
+	</bean>		
+	
+	<bean name="rule2733" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="2733"
+		p:tagName="HTML"
+		p:confidence="ERROR">
+		<property name="prerequisites">
+			<list>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeInvalidValuesCheck">
+					<constructor-arg value="lang"/>
+					<constructor-arg>
+						<list>
+							<value>ara</value>
+							<value>ar</value>
+							<value>heb</value>
+							<value>he</value>
+						</list>
+					</constructor-arg>
+				</bean>
+				<bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+					<constructor-arg value="dir"/>
+				</bean>		
+			</list>
+		</property>
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.AttributeValueEqualsCheck">
+				<constructor-arg value="dir"/>
+				<constructor-arg value="ltr"/>
+			</bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule274" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="274"
+		p:tagName="ALL"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                <constructor-arg>
+                    <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                        <constructor-arg>
+                            <list>
+                                <value>onmouseover</value>
+                                <value>onmouseout</value>
+                                <value>onfocus</value>
+                                <value>onblur</value>
+                                <value>onchange</value>
+                            </list>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+
+	<bean name="rule275" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="275"
+		p:tagName="BODY"
+		p:confidence="POTENTIAL">
+		<property name="check">
+            <bean class="com.schmapty.guvnah.model.expression.operator.impl.Not">
+                <constructor-arg>
+                    <bean class="com.schmapty.guvnah.model.expression.check.impl.HasAttributeCheck">
+                        <constructor-arg value="onload"></constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+		</property>
+	</bean>	
+	
+	<bean name="rule2755" class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="2755"
+		p:tagName="SCRIPT"
+		p:confidence="POTENTIAL">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.TextNotContainsCheck">
+				<constructor-arg value="window.onload"/>
+			</bean>
+		</property>
+	</bean>	
+		
+	<bean name="rule10000"  class="com.schmapty.guvnah.model.rule.impl.RuleImpl"
+		p:ruleId="10000"
+		p:tagName="ANCHOR"
+		p:confidence="ERROR">
+		<property name="check">
+			<bean class="com.schmapty.guvnah.model.expression.check.impl.LinkVerificationCheck"/>
+		</property>		
+	</bean>	
+</beans>

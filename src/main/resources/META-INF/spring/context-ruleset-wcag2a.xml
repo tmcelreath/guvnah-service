@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<!-- RULE SET DEFINITIONS -->
+
+	<bean id="wcag2a" class="com.schmapty.guvnah.model.rule.impl.RuleSetImpl"
+		p:id="wcag2a">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.1"/>
+				<ref bean="wcag2a.1.2"/>
+				<ref bean="wcag2a.1.3"/>
+				<ref bean="wcag2a.1.4"/>
+				<ref bean="wcag2a.2.1"/>
+				<ref bean="wcag2a.2.2"/>
+				<ref bean="wcag2a.2.3"/>
+				<ref bean="wcag2a.2.4"/>
+				<ref bean="wcag2a.3.1"/>
+				<ref bean="wcag2a.3.2"/>
+				<ref bean="wcag2a.3.3"/>
+				<ref bean="wcag2a.3.4"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- WCAG2 A 1.1 -->
+
+	<bean name="wcag2a.1.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.1">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.1.1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2a.1.1.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.1.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule23"/>			
+				<ref bean="rule24"/>							
+				<ref bean="rule25"/>
+				<ref bean="rule64"/>
+				<ref bean="rule65"/>							
+				<ref bean="rule66"/>
+				<ref bean="rule194"/>
+				<ref bean="rule163"/>							
+				<ref bean="rule1"/>
+				<ref bean="rule2"/>
+				<ref bean="rule3"/>
+				<ref bean="rule6"/>
+				<ref bean="rule7"/>
+				<ref bean="rule8"/>
+				<ref bean="rule11"/>
+				<ref bean="rule16"/>
+				<ref bean="rule178"/>
+				<ref bean="rule239"/>
+				<ref bean="rule58"/>
+				<ref bean="rule59"/>
+				<ref bean="rule60"/>
+				<ref bean="rule62"/>
+				<ref bean="rule193"/>
+				<ref bean="rule238"/>
+				<ref bean="rule80"/>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- WCAG2 A 1.2 -->
+	
+	<bean name="wcag2a.1.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.2">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.2.1"/>
+				<ref bean="wcag2a.1.2.2"/>
+				<ref bean="wcag2a.1.2.3"/>
+			</list>
+		</property>
+	</bean>	
+
+	<bean name="wcag2a.1.2.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.2.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule17"/>
+				<ref bean="rule20"/>
+				<ref bean="rule145"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2a.1.2.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.2.2">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2a.1.2.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.2.3">
+		<property name="rules">
+			<list>
+				<ref bean="rule146"/>
+				<ref bean="rule160"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- WCAG2 A 1.3 -->
+
+	<bean name="wcag2a.1.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.3">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.3.1"/>
+				<ref bean="wcag2a.1.3.2"/>
+				<ref bean="wcag2a.1.3.3"/>
+			</list>
+		</property>
+	</bean>	
+
+	<bean name="wcag2a.1.3.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.3.1">
+		<property name="rules">
+			<list>
+<!-- 				<ref bean="rule241"/> -->
+<!-- 				<ref bean="rule248"/>							 -->
+				<ref bean="rule270"/>
+				<ref bean="rule271"/>
+				<ref bean="rule242"/>							
+				<ref bean="rule168"/>
+				<ref bean="rule247"/>
+				<ref bean="rule57"/>			
+				<ref bean="rule118"/>
+				<ref bean="rule119"/>
+				<ref bean="rule120"/>
+				<ref bean="rule121"/>
+				<ref bean="rule122"/>
+				<ref bean="rule123"/>
+				<ref bean="rule124"/>
+				<ref bean="rule125"/>
+				<ref bean="rule204"/>
+				<ref bean="rule206"/>
+				<ref bean="rule207"/>
+				<ref bean="rule211"/>
+				<ref bean="rule213"/>
+				<ref bean="rule216"/>
+				<ref bean="rule82"/>
+				<ref bean="rule154"/>
+				<ref bean="rule91"/>
+				<ref bean="rule208"/>
+				<ref bean="rule209"/>
+				<ref bean="rule111"/>
+				<ref bean="rule112"/>
+				<ref bean="rule114"/>
+				<ref bean="rule115"/>
+				<ref bean="rule133"/>
+				<ref bean="rule137"/>
+				<ref bean="rule151"/>
+				<ref bean="rule203"/>
+				<ref bean="rule230"/>
+				<ref bean="rule231"/>
+				<ref bean="rule243"/>
+				<ref bean="rule244"/>
+				<ref bean="rule245"/>
+				<ref bean="rule95"/>
+				<ref bean="rule96"/>
+				<ref bean="rule212"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2a.1.3.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.3.2">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+				
+	<bean name="wcag2a.1.3.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.3.3">
+		<property name="rules">
+			<list>
+<!-- 			<ref bean="rule250"/>	 -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- WCAG2 A 1.4 -->
+
+	<bean name="wcag2a.1.4" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.4">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.1.4.1"/>
+				<ref bean="wcag2a.1.4.2"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2a.1.4.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.4.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule21"/>	
+				<ref bean="rule252"/>
+				<ref bean="rule14"/>	
+				<ref bean="rule251"/>
+				<ref bean="rule55"/>	
+				<ref bean="rule73"/>	
+				<ref bean="rule86"/>	
+			</list>
+		</property>
+	</bean>
+				
+	<bean name="wcag2a.1.4.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.1.4.2">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>	
+	
+	<!-- WCAG2 A 2.1 -->
+	
+	<bean name="wcag2a.2.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.1">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.2.1.1"/>
+				<ref bean="wcag2a.2.1.2"/>
+			</list>
+		</property>
+	</bean>	
+
+	<bean name="wcag2a.2.1.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.1.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule103"/>
+				<ref bean="rule104"/>
+				<ref bean="rule105"/>
+				<ref bean="rule106"/>
+				<ref bean="rule107"/>
+				<ref bean="rule108"/>
+				<ref bean="rule26"/>
+				<ref bean="rule76"/>
+				<ref bean="rule89"/>
+			</list>
+		</property>	
+	</bean>
+	
+	<bean name="wcag2a.2.1.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.1.2">
+		<property name="rules">
+			<list>
+				<ref bean="rule258"/>
+				<ref bean="rule260"/>
+				<ref bean="rule259"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- WCAG2 A  2.2 -->	
+	
+	<bean name="wcag2a.2.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.2">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.2.2.1"/>
+				<ref bean="wcag2a.2.2.2"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2a.2.2.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.2.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule72"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2a.2.2.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.2.2">
+		<property name="rules">
+			<list>
+				<ref bean="rule27"/>
+				<ref bean="rule69"/>
+				<ref bean="rule71"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- WCAG2 A  2.3 -->	
+	
+	<bean name="wcag2a.2.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.3">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.2.3.1"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2a.2.3.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.3.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule22"/>
+				<ref bean="rule10"/>
+				<ref bean="rule30"/>
+				<ref bean="rule87"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- WCAG2 A  2.4 -->		
+	
+	<bean name="wcag2a.2.4" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.4">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.2.4.1"/>
+				<ref bean="wcag2a.2.4.2"/>
+				<ref bean="wcag2a.2.4.3"/>
+				<ref bean="wcag2a.2.4.4"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2a.2.4.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.4.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule28"/>
+				<ref bean="rule262"/>
+				<ref bean="rule31"/>
+				<ref bean="rule32"/>
+<!-- 				<ref bean="rule84"/> -->
+			</list>
+		</property>
+	</bean>
+				
+	<bean name="wcag2a.2.4.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.4.2">
+		<property name="rules">
+			<list>
+				<ref bean="rule50"/>
+				<ref bean="rule51"/>
+				<ref bean="rule52"/>
+				<ref bean="rule53"/>
+				<ref bean="rule54"/>
+			</list>
+		</property>
+	</bean>
+				
+	<bean name="wcag2a.2.4.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.4.3">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+				
+	<bean name="wcag2a.2.4.4" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.2.4.4">
+		<property name="rules">
+			<list>
+				<ref bean="rule19"/>
+				<ref bean="rule173"/>
+<!--			<ref bean="rule174"/> -->
+<!-- 			<ref bean="rule197"/> -->
+			</list>
+		</property>
+	</bean>	
+	
+	<!-- WCAG2 A  3.1 -->	
+
+	<bean name="wcag2a.3.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.1">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.3.1.1"/>
+				<ref bean="wcag2a.3.1.2"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2a.3.1.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.1.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule48"/>
+				<ref bean="rule49"/>
+				<ref bean="rule273"/>
+				<ref bean="rule2733"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="wcag2a.3.1.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.1.2">
+		<property name="rules">
+			<list>
+				<ref bean="rule110"/>
+			</list>
+		</property>
+	</bean>	
+
+	<!-- WCAG2 A  3.2 -->	
+	
+	<bean name="wcag2a.3.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.2">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.3.2.1"/>
+				<ref bean="wcag2a.3.2.2"/>				
+			</list>
+		</property>
+	</bean>	
+
+	<bean name="wcag2a.3.2.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.2.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule275"/>
+				<ref bean="rule2755"/>
+			</list>
+		</property>
+	</bean>
+				
+	<bean name="wcag2a.3.2.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.2.2">
+		<property name="rules">
+			<list>
+				<ref bean="rule274"/>
+<!-- 			<ref bean="rule68"/> -->
+<!-- 			<ref bean="rule92"/> -->
+			</list>
+		</property>
+	</bean>
+
+	
+	<!-- WCAG2 A  3.3 -->	
+	
+	<bean name="wcag2a.3.3" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.3">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.3.3.1"/>
+				<ref bean="wcag2a.3.3.2"/>	
+			</list>
+		</property>
+	</bean>	
+	
+	<bean name="wcag2a.3.3.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.3.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule267"/>
+			</list>
+		</property>
+	</bean>
+	<bean name="wcag2a.3.3.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.3.2">
+		<property name="rules">
+			<list>
+				<ref bean="rule187"/>
+				<ref bean="rule246"/>
+				<ref bean="rule188"/>
+				<ref bean="rule189"/>
+				<ref bean="rule205"/>
+				<ref bean="rule217"/>
+				<ref bean="rule218"/>
+				<ref bean="rule219"/>
+				<ref bean="rule220"/>
+				<ref bean="rule210"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- WCAG2 A  3.4 -->	
+	
+	<bean name="wcag2a.3.4" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.4">
+		<property name="ruleSetGroups">
+			<list>
+				<ref bean="wcag2a.3.4.1"/>
+				<ref bean="wcag2a.3.4.2"/>	
+			</list>
+		</property>
+	</bean>	
+
+	<bean name="wcag2a.3.4.1" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.4.1">
+		<property name="rules">
+			<list>
+				<ref bean="rule185"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="wcag2a.3.4.2" class="com.schmapty.guvnah.model.rule.impl.RuleSetGroupImpl"
+		p:id="wcag2a.3.4.2">
+		<property name="rules">
+			<list></list>
+		</property>
+	</bean>
+
+</beans>

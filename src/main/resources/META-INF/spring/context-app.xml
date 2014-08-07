@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <context:component-scan base-package="com.schmapty.guvnah"/>
+    
+	<context:property-placeholder location=" 
+ 		classpath:META-INF/saucelabs.properties,
+ 		classpath:META-INF/config.properties
+ 	" /> 
+
+	<util:properties id="checkProperties" location="classpath:META-INF/checks-en-us.properties" />
+	<util:properties id="ruleProperties" location="classpath:META-INF/rules-en-us.properties" />
+	<util:properties id="rulesetProperties" location="classpath:META-INF/rulesets-en-us.properties" />
+	
+	<import resource="context-rules.xml"/>
+	
+	<import resource="context-ruleset-wcag2a.xml"/>
+	<import resource="context-ruleset-wcag2aa.xml"/>
+	<import resource="context-ruleset-wcag2aaa.xml"/>
+	<import resource="context-ruleset-section508.xml"/>
+	<import resource="context-ruleset-linkverification.xml"/>
+	
+	<import resource="context-saucelabs.xml"/>
+	<import resource="context-lang-codes.xml"/>
+	
+	<!-- RULE SET MAP -->
+	<util:map id="ruleSetMap" key-type="com.schmapty.guvnah.model.rule.impl.RuleSetName" value-type="com.schmapty.guvnah.model.impl.RuleSetImpl">
+		<entry key="WCAG2A" value-ref="wcag2a"/>
+		<entry key="WCAG2AA" value-ref="wcag2aa"/>
+		<entry key="WCAG2AAA" value-ref="wcag2aaa"/>
+		<entry key="SECTION508" value-ref="section508"/>
+		<entry key="LINKVERIFICATION" value-ref="linkverification"/>
+	</util:map>
+	
+	<bean name="phantomJSPath" class="java.lang.String">
+		<constructor-arg value="${phantomjs.path}"/>
+	</bean>
+	
+</beans>
